@@ -23,30 +23,29 @@
 package com.djrapitops.extension;
 
 import com.djrapitops.plan.extension.DataExtension;
-import com.djrapitops.plan.extension.extractor.ExtensionExtractor;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 /**
- * Test for the implementation of the new extension
+ * Factory for DataExtension.
  *
  * @author Rsl1122
  */
-class ExtensionImplementationTest {
+public class NewExtensionFactory {
 
-    private ExtensionExtractor extractor;
-
-    @BeforeEach
-    void prepareExtractor() {
-        DataExtension extension = new NewExtension();
-        extractor = new ExtensionExtractor(extension);
+    private boolean isAvailable() {
+        try {
+            Class.forName("");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
-    @Test
-    @DisplayName("API is implemented correctly")
-    void noImplementationErrors() {
-        extractor.validateAnnotations();
+    public Optional<DataExtension> createExtension() {
+        if (isAvailable()) {
+            return Optional.of(new NewExtension());
+        }
+        return Optional.empty();
     }
-
 }

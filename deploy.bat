@@ -1,1 +1,2 @@
-mvn clean install deploy
+CALL mvn clean install deploy
+pause
