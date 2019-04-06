@@ -67,8 +67,8 @@ public class CoreProtectExtension implements DataExtension {
             throw new IllegalStateException();
         }
 
-        // Check that a compatible version of the API is loaded
-        if (api.APIVersion() < 6) {
+        // Check that a compatible version of the API is loaded (Api 5 for 1.12.2 and lower | Api 6 for 1.13.x)
+        if (api.APIVersion() < 5) {
             throw new IllegalStateException();
         }
     }
