@@ -47,6 +47,7 @@ public class CoreProtectExtension implements DataExtension {
     private static final int ACTION_REMOVED = 0;
     private static final int ACTION_PLACED = 1;
     private static final int ACTION_INTERACT = 2;
+    private static final int ACTION_CHAT = 3; // Not sure of the value, need trials.
     private CoreProtectAPI api;
 
     CoreProtectExtension(boolean b) {
@@ -127,6 +128,17 @@ public class CoreProtectExtension implements DataExtension {
     public long blocksInteractedWith30(String playerName) {
         return lookupInteractionCount(30, playerName, ACTION_INTERACT);
     }
+    
+    @NumberProvider(
+            text = "Messages Sent (Last 30 Days)",
+            description = "How many messages has been sent by players.",
+            priority = 17,
+            iconName = "commens",
+            iconColor = Color.GREEN
+    )
+    public long messagesSentWith30(String playerName) {
+        return lookupInteractionCount(30, playerName, ACTION_CHAT);
+    }
 
     @NumberProvider(
             text = "Blocks Placed (Last 7 Days)",
@@ -159,6 +171,17 @@ public class CoreProtectExtension implements DataExtension {
     )
     public long blocksInteractedWith7(String playerName) {
         return lookupInteractionCount(7, playerName, ACTION_INTERACT);
+    }
+    
+    @NumberProvider(
+            text = "Messages Sent (Last 7 Days)",
+            description = "How many messages has been sent by players.",
+            priority = 7,
+            iconName = "comments",
+            iconColor = Color.GREEN
+    )
+    public long messagesSentWith7(String playerName) {
+        return lookupInteractionCount(7, playerName, ACTION_CHAT);
     }
 
 }
