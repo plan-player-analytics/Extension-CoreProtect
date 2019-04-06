@@ -133,7 +133,7 @@ public class CoreProtectExtension implements DataExtension {
             text = "Messages Sent (Last 30 Days)",
             description = "How many messages has been sent by players.",
             priority = 17,
-            iconName = "commens",
+            iconName = "comments",
             iconColor = Color.GREEN
     )
     public long messagesSentWith30(String playerName) {
