@@ -24,6 +24,7 @@ package com.djrapitops.extension;
 
 import com.djrapitops.plan.extension.CallEvents;
 import com.djrapitops.plan.extension.DataExtension;
+import com.djrapitops.plan.extension.NotReadyException;
 import com.djrapitops.plan.extension.annotation.NumberProvider;
 import com.djrapitops.plan.extension.annotation.PluginInfo;
 import com.djrapitops.plan.extension.icon.Color;
@@ -81,6 +82,9 @@ public class CoreProtectExtension implements DataExtension {
     }
 
     private long lookupInteractionCount(int days, String playerName, int action) {
+        if (!api.isEnabled()) {
+            throw new NotReadyException();
+        }
         return api.performLookup(
                 (int) TimeUnit.DAYS.toSeconds(days),
                 Collections.singletonList(playerName),
@@ -133,7 +137,8 @@ public class CoreProtectExtension implements DataExtension {
             description = "How many block place actions the player has that have not been rolled back.",
             priority = 10,
             iconName = "cube",
-            iconColor = Color.LIGHT_BLUE
+            iconColor = Color.LIGHT_BLUE,
+            showInPlayerTable = true
     )
     public long blocksPlaced7(String playerName) {
         return lookupInteractionCount(7, playerName, ACTION_REMOVED);
@@ -144,7 +149,8 @@ public class CoreProtectExtension implements DataExtension {
             description = "How many block break actions the player has that have not been rolled back.",
             priority = 9,
             iconName = "cube",
-            iconColor = Color.BROWN
+            iconColor = Color.BROWN,
+            showInPlayerTable = true
     )
     public long blocksBroken7(String playerName) {
         return lookupInteractionCount(7, playerName, ACTION_PLACED);
