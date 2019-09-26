@@ -25,6 +25,7 @@ package com.djrapitops.extension;
 import com.djrapitops.plan.extension.CallEvents;
 import com.djrapitops.plan.extension.DataExtension;
 import com.djrapitops.plan.extension.NotReadyException;
+import com.djrapitops.plan.extension.annotation.InvalidateMethod;
 import com.djrapitops.plan.extension.annotation.NumberProvider;
 import com.djrapitops.plan.extension.annotation.PluginInfo;
 import com.djrapitops.plan.extension.icon.Color;
@@ -43,6 +44,9 @@ import java.util.concurrent.TimeUnit;
  * @author Rsl1122
  */
 @PluginInfo(name = "CoreProtect", iconName = "user-shield", iconFamily = Family.SOLID, color = Color.LIGHT_BLUE)
+@InvalidateMethod("blocksPlaced30")
+@InvalidateMethod("blocksBroken30")
+@InvalidateMethod("blocksInteractedWith30")
 public class CoreProtectExtension implements DataExtension {
 
     private static final int ACTION_REMOVED = 0;
@@ -81,12 +85,12 @@ public class CoreProtectExtension implements DataExtension {
         };
     }
 
-    private long lookupInteractionCount(int days, String playerName, int action) {
+    private long lookupInteractionCount(String playerName, int action) {
         if (!api.isEnabled()) {
             throw new NotReadyException();
         }
         return api.performLookup(
-                (int) TimeUnit.DAYS.toSeconds(days),
+                (int) TimeUnit.DAYS.toSeconds(7),
                 Collections.singletonList(playerName),
                 null,
                 null,
@@ -100,71 +104,38 @@ public class CoreProtectExtension implements DataExtension {
     }
 
     @NumberProvider(
-            text = "Blocks Placed (Last 30 Days)",
-            description = "How many block place actions the player has that have not been rolled back.",
-            priority = 20,
-            iconName = "cube",
-            iconColor = Color.LIGHT_BLUE
-    )
-    public long blocksPlaced30(String playerName) {
-        return lookupInteractionCount(30, playerName, ACTION_REMOVED);
-    }
-
-    @NumberProvider(
-            text = "Blocks Broken (Last 30 Days)",
-            description = "How many block break actions the player has that have not been rolled back.",
-            priority = 19,
-            iconName = "cube",
-            iconColor = Color.BROWN
-    )
-    public long blocksBroken30(String playerName) {
-        return lookupInteractionCount(30, playerName, ACTION_PLACED);
-    }
-
-    @NumberProvider(
-            text = "Block Interactions (Last 30 Days)",
-            description = "How many block interact actions the player has that have not been rolled back.",
-            priority = 18,
-            iconName = "fingerprint",
-            iconColor = Color.LIGHT_BLUE
-    )
-    public long blocksInteractedWith30(String playerName) {
-        return lookupInteractionCount(30, playerName, ACTION_INTERACT);
-    }
-
-    @NumberProvider(
-            text = "Blocks Placed (Last 7 Days)",
-            description = "How many block place actions the player has that have not been rolled back.",
+            text = "Blocks Placed (7 Days)",
+            description = "How many block place actions the player has that have not been rolled back (From last seen).",
             priority = 10,
             iconName = "cube",
             iconColor = Color.LIGHT_BLUE,
             showInPlayerTable = true
     )
     public long blocksPlaced7(String playerName) {
-        return lookupInteractionCount(7, playerName, ACTION_REMOVED);
+        return lookupInteractionCount(playerName, ACTION_REMOVED);
     }
 
     @NumberProvider(
-            text = "Blocks Broken (Last 7 Days)",
-            description = "How many block break actions the player has that have not been rolled back.",
+            text = "Blocks Broken (7 Days)",
+            description = "How many block break actions the player has that have not been rolled back (From last seen).",
             priority = 9,
             iconName = "cube",
             iconColor = Color.BROWN,
             showInPlayerTable = true
     )
     public long blocksBroken7(String playerName) {
-        return lookupInteractionCount(7, playerName, ACTION_PLACED);
+        return lookupInteractionCount(playerName, ACTION_PLACED);
     }
 
     @NumberProvider(
-            text = "Block Interactions (Last 7 Days)",
-            description = "How many block interact actions the player has that have not been rolled back.",
+            text = "Block Interactions (7 Days)",
+            description = "How many block interact actions the player has that have not been rolled back (From last seen).",
             priority = 8,
             iconName = "fingerprint",
             iconColor = Color.LIGHT_BLUE
     )
     public long blocksInteractedWith7(String playerName) {
-        return lookupInteractionCount(7, playerName, ACTION_INTERACT);
+        return lookupInteractionCount(playerName, ACTION_INTERACT);
     }
 
 }
