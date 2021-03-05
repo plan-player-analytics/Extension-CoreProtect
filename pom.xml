@@ -21,16 +21,6 @@
     </build>
 
     <repositories>
-        <repository>
-            <id>plan-bintray</id>
-            <url>https://dl.bintray.com/rsl1122/Plan-repository/</url>
-        </repository>
-
-        <repository>
-            <id>coreprotect-repo</id>
-            <url>http://maven.playpro.com</url>
-        </repository>
-
         <!-- Platforms -->
 
         <repository>
@@ -49,13 +39,21 @@
         <!--<id>velocity-repo</id>-->
         <!--<url>https://repo.velocitypowered.com/snapshots/</url>-->
         <!--</repository>-->
+        <repository>
+            <id>plan-repo</id>
+            <url>https://repo.playeranalytics.net/releases</url>
+        </repository>
+        <repository>
+            <id>coreprotect-repo</id>
+            <url>http://maven.playpro.com</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency> <!-- Plan API -->
             <groupId>com.djrapitops</groupId>
-            <artifactId>Plan-api</artifactId>
-            <version>0.0.5</version>
+            <artifactId>plan-api</artifactId>
+            <version>5.2-R0.1</version>
             <scope>provided</scope>
         </dependency>
 
@@ -116,9 +114,8 @@
 
     <distributionManagement>
         <repository>
-            <id>bintray-rsl1122-Plan-repository</id>
-            <name>rsl1122-Plan-repository</name>
-            <url>https://api.bintray.com/maven/rsl1122/Plan-repository/Extension-CoreProtect/;publish=1</url>
+            <id>plan-repo</id>
+            <url>https://repo.playeranalytics.net/releases</url>
         </repository>
     </distributionManagement>
 </project>
